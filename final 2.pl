@@ -36,27 +36,27 @@ tieneMuchoAtaque(Monstruo):-
 monstruoConocido(Monstruo):-
     monstruo(Monstruo,_,_,X,_),
     monstruoUtil(Monstruo),
-    X < 2000. 
+    X < 2000.
 
-afectadoPor(jinzo, Carta):-
-    not(trampa(Carta,_,_)).
+inmune(jinzo, Carta):-
+    trampa(Carta,_,_).
 
-afectadoPor(Monstruo, Carta):-
+inmune(Monstruo, Carta):-
     monstruo(Monstruo,_,_,_,hechizero),
-    not(magia(Carta,_,_)).
+    magia(Carta,_,_).
 
 puedeDestruir(Carta, Monstruo):-
-    afectadoPor(Monstruo, Carta),
+    not(inmune(Monstruo, Carta)),
     trampa(Carta,destruir,_).
 
 puedeDestruir(Carta, Monstruo):-
-    afectadoPor(Monstruo, Carta),
+    not(inmune(Monstruo, Carta)),
     magia(Carta,destruir,_).
 
 puedeDestruir(Atacante, Defensor):-
     monstruo(Atacante, X, _, _, _),
     monstruo(Defensor, Y, _, _, _),
-    X >= Y. 
+    X >= Y.
 
 personajeConocido(Personaje):-
     protagonista(Personaje, primera(_,_)).
@@ -69,6 +69,5 @@ asDelProta(Nombre, As):-
 
 mejorPersonaje(Personaje):-
     personajeConocido(Personaje),
-    asDelProta(Personaje, As);
-	magia(Carta, _, _),
-    forall(monstruo(As, _, _, _, _), not(puedeDestruir(Carta, As))). 
+    asDelProta(Personaje, As),
+    forall(magia(Carta, _, _), not(puedeDestruir(Carta, As))).
