@@ -18,6 +18,18 @@ protagonista(yugi,primera(magoOscuro, 10)).
 protagonista(kaiba,primera(dragonBlanco, 5)).
 protagonista(jaden,segunda(neos, 10)).
 
+carta(magoBlanco, monstruos(2200, 1800, 1999, hechizero)).
+carta(magoRojo, monstruos(1500, 1600, 2003, hechizero)).
+carta(magoAzul, monstruos(1700, 1400, 2003, hechizero)).
+carta(dragonAmarillo, monstruos(1700, 1400, 2003, dragon)).
+
+carta(magiaUno, magias(destruir, 3)).
+carta(trampaDos, trampas(destruir, 2)).
+
+magosDebiles(Magos):-
+    carta(Magos, monstruos(X, _, _, hechizero)),
+    X<2000.
+
 
 estaLimitada(Carta):-
     magia(Carta,_,1).
@@ -71,3 +83,4 @@ mejorPersonaje(Personaje):-
     personajeConocido(Personaje),
     asDelProta(Personaje, As),
     forall(magia(Carta, _, _), not(puedeDestruir(Carta, As))).
+
